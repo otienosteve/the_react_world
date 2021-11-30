@@ -1,19 +1,19 @@
 import "./styles.css";
-import { useState } from "react";
+import { useState, useEffect} from "react";
 
 export default function App() {
-  const [name, setName] = useState(["HI"]);
-  let handleClick = (vars) => {
-    vars = setName();
-  };
-  return (
-    <div className="App">
-      {name.map((name) => {
-        for (var n = 1; n <= name.length; n++) {
-          return <h2>{name[0]}</h2>;
-        }
-      })}
-      <button onClick={handleClick}>Click ME!</button>
-    </div>
-  );
+
+  const [data,setData]=useState({message:"welcome"})
+   
+const fetchData=  async ()=>{
+fetch('https://api.quotable.io/random').then((res)=>{return res.json()}).then((data)=>{setData(data)})
+}
+useEffect(()=>{
+  fetchData();
+},[])
+ return(<><h2>{data.author}</h2>
+ <h3>{data.content}</h3>
+ <button type="button" style={{color:"green",background:"none",border:"none", cursor:"pointer"}} onClick={()=>fetchData()}>Get Quote</button></>);
+
+ 
 }
