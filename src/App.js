@@ -1,19 +1,24 @@
 import "./styles.css";
-import { useState, useEffect} from "react";
-
+import { useState, useEffect } from "react";
+import Quotes from "./Components/Quotes";
 export default function App() {
+  const [data, setData] = useState({ message: "welcome" });
 
-  const [data,setData]=useState({message:"welcome"})
-   
-const fetchData=  async ()=>{
-fetch('https://api.quotable.io/random').then((res)=>{return res.json()}).then((data)=>{setData(data)})
-}
-useEffect(()=>{
-  fetchData();
-},[])
- return(<><h2>{data.author}</h2>
- <h3>{data.content}</h3>
- <button type="button" style={{color:"green",background:"none",border:"none", cursor:"pointer"}} onClick={()=>fetchData()}>Get Quote</button></>);
-
- 
+  const fetchData = () => {
+    fetch("https://api.quotable.io/random")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setData(data);
+      });
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+  return (
+    <>
+      <Quotes data={data} fetchData={fetchData()} />
+    </>
+  );
 }
