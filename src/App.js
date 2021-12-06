@@ -1,28 +1,39 @@
 import "./styles.css";
-import React, { useState, useEffect, useContext } from "react";
-import Destruct from "./Components/Destruct";
+import React, { useState, useEffect, } from "react";
 
 export default function App() {
-  const [data, setData] = useState({ message: "welcome" });
-  const globalData = React.createContxet({ Message: "AnotherContext" });
-  const fetchData = async () => {
-    try {
-      const resp = await fetch("https://foodish-api.herokuapp.com/api/");
-      const quotes = await resp.json();
-      console.log(quotes);
-      setData(quotes);
-    } catch (error) {
-      setData({ message: "Cannot communicate with The API " + error });
-    }
-  };
+ const [Value, setValue]=useState({Message:"welcome",Greeting:"hello"})
+ const [misc,setMisc]=useState([])
+ const fetchData=async ()=>{
+   try{
+   const response= await fetch('https://bible-api.com/john%203:16');
+
+   const data= await response.json();
+  // console.log(data) ;
+   setValue(data);
+  //console.log(data.verse[0]);
+  //setMisc(data.verse);
+
+   }catch{
+
+console.log("error while fetching data");
+   }
+ }
   useEffect(() => {
-    fetchData();
+fetchData();
   }, []);
+  const changeMessage=()=>{
+    setValue({...Value, Message:"Is it really a message"})
+  }
+
   return (
     <>
-      <img src={data.image} alt="food" />
-      <Destruct />
+     
+   <h3>{Value.reference}</h3>
+   <h3>{Value.text}</h3>
+  
+   <button onClick={changeMessage} style={{border:"2px solid blue",cursor:"pointer", background:"none"}}>change Message</button>
     </>
   );
 }
-export { globalData };
+
